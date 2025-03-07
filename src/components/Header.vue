@@ -1,8 +1,29 @@
 <script setup>
 import { ref } from 'vue'
-
+import { onMounted } from 'vue'
 import { ElMessage } from 'element-plus';
 import a11Img from '@/assets/a11.jpeg'  // 导入assets下的图片，自己喜欢啥图加啥图就行
+import { constantRoutes } from '@/router';
+import { watch } from 'vue';
+
+// 获得当前路由的路径
+import { useRoute } from 'vue-router';
+
+// 所有的路由信息
+const list = constantRoutes.map(item => {
+    return {
+        title: item.meta?.title,
+        path: item.path,
+        name: item.name,
+        children: item.children?.map(child => {
+            return {
+                title: child.meta?.title,
+                path: child.path
+            }
+        })
+    }
+})
+
 const isCollapse = ref(true)
 // 获取父组件传递过来的数据 
 const showIcon = defineProps({
@@ -14,12 +35,39 @@ const emit = defineEmits(['changeAside'])
 
 // 自定义按钮点击事件，侧边栏的收缩按钮
 const collapseAside = () => {
-    emit('changeAside')
+    isCollapse.value = !isCollapse.value; // 切换 isCollapse 的值
+    emit('changeAside', isCollapse.value); // 触发父组件的事件，并传递当前状态
 }
 
-// 登出按钮
-const LogOut = ()=>{}
+// 获得当前路由的路径
+const route = useRoute();
+console.log(route.meta.mark);
 
+const currentRoutePath = ref('')  // 使用 ref 创建响应式状态
+onMounted(() => {
+    // 监听路由变化
+    currentRoutePath.value = route.fullPath;
+    console.log('Initial route path:', route.fullPath);
+})
+// 监听路由变化
+watch(
+  () => route.fullPath,
+  (newPath) => {
+    currentRoutePath.value = newPath;
+    console.log('Route path changed:', newPath);
+  }
+);
+
+const goHome = () => {
+    //路由跳转到首页
+    window.location.href = '/'; // 直接重定向到首页
+};
+
+// 退出登录
+const LogOut = () => {
+  ElMessage.success('登出成功！');
+  // 在这里可以添加处理登出的逻辑，比如清除 token、重定向到登录页
+};
 </script>
 
 
@@ -33,8 +81,12 @@ const LogOut = ()=>{}
                 <el-icon v-show="showIcon.isCollapse" @click="collapseAside" style="color: #303133;">
                     <Expand />
                 </el-icon>
+                <div style="margin-left:10px">
+                    <span class="gohome" @click="goHome">首页</span>
+                    <span>{{ route.meta.mark }}</span>
+                </div>
             </div>
-            <div class="toolbar"  >
+            <div class="toolbar">
                 <div class="block" style="margin-right: 10px;">
                     <el-avatar :size="40" :src="a11Img" />
                 </div>
@@ -81,5 +133,10 @@ const LogOut = ()=>{}
 
 .icon-color {
     color: white;
+}
+.gohome{
+    margin-right:10px;
+    color:blue;
+    cursor: pointer;
 }
 </style>

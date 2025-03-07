@@ -9,7 +9,7 @@ import Aside from '@/components/Aside.vue'
 
 const asideSettings = ref({
     isCollapse:false,
-    width:'200'
+    width:'220'
 })
 
 // 给子组件绑定事件，通过子组件emit从而改变父组件的值
@@ -18,18 +18,14 @@ const changeAside = ()=>{
    if(asideSettings.value.isCollapse){
     asideSettings.value.width = "64"
    }else{
-    asideSettings.value.width = "200"
+    asideSettings.value.width = "220"
    }
 }
-import iconvue from '@/components/icons/index.vue'
+
+
 
 </script>
-
 <template>
-  <div>
-    <p>首页</p>
-    <!-- <iconvue name="home"></iconvue> -->
-  </div>
 </template>
 
 

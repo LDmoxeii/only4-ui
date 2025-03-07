@@ -2,7 +2,13 @@
   "compilerOptions": {
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },     // 使用ES模块格式
+    
+    "target": "esnext",
+    "module": "esnext",
+    "esModuleInterop": true,
+    "types": ["vite/client"],
   },
+
   "exclude": ["node_modules", "dist"]
 }
