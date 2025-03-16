@@ -77,6 +77,11 @@ export const dynamicRoutes = {
           component: () => import('@/views/admin/user/userEdit.vue'),
           meta: { title: '编辑用户', mark: '用户管理/编辑用户' },
         },
+        {
+          path: 'roleEdit',
+          component: () => import('@/views/admin/user/roleEdit.vue'),
+          meta: { title: '角色编辑', mark: '用户管理/角色编辑' },
+        }
       ],
     },
   ],

@@ -29,7 +29,7 @@ import { resolve } from 'path-browserify'; // 引入路径解析工具
   <div>
     <!-- 如果有子路由并且不隐藏 -->
     <template v-if="item.children.length > 0 && !item?.hidden">
-      <el-sub-menu v-if="!item.allChildrenHidden"  v-show="!collapse" :index="item.path" :collapse="props.collapse">
+      <el-sub-menu v-if="!item.allChildrenHidden"  :class="{'collapse-menu': collapse}" :index="item.path" :collapse="props.collapse">
         <template #title>
           <iconvue v-if="item.icon" :name="item.icon" color="#74767A" />
           <span  v-show="!collapse" style="margin-left: 10px">{{ item.title }}</span>
