@@ -4,8 +4,8 @@ import { ref } from 'vue'
 
 
 // 组件注册
-import Header from '@/components/Header.vue'
-import Aside from '@/components/Aside.vue'
+import Header from '@/components/hlbt-header/hlbt-header.vue'
+import Aside from '@/components/hlbt-aside/asideItem.vue'
 import router from '@/router/index';
 
 

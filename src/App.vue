@@ -1,10 +1,9 @@
 <script setup>
 import { RouterView } from 'vue-router'
-import Aside from './components/Aside.vue';
-import Header from './components/Header.vue';
+import hlbtaside from './components/hlbt-aside/index.vue';// 这个使用
+import Header from './components/hlbt-header/hlbt-header.vue';
 import { useRoute } from 'vue-router'
-import { watch, ref } from 'vue'
-
+import { watch, ref,provide } from 'vue'
 const asideSettings = ref({
     isCollapse:false,
     width:'220'
@@ -21,7 +20,6 @@ const changeAside = ()=>{
 }
 
 const route = useRoute()
-console.log(route);
 
 const showComponent = ref(true)
 // 监听路由变化
@@ -35,6 +33,9 @@ watch(
   { immediate: true } // 立即执行一次
 )
 
+//提供 Header 组件实例
+const headerComponent = ref(null);
+provide('Header',headerComponent)
 
 </script>
 
@@ -43,9 +44,9 @@ watch(
   <div>
     <title>sssss</title>
     <el-container style="min-height: 100vh;min-width: 100vw;overflow: hidden;">
-      <Aside :collapse="asideSettings.isCollapse" :width="asideSettings.width" v-if="showComponent"></Aside>
+      <hlbtaside :collapse="asideSettings.isCollapse" :width="asideSettings.width" v-if="showComponent"></hlbtaside>
       <el-container style="height: 100vh;width:100%;display: flex;flex-direction: column;">
-        <Header :isCollapse="asideSettings.isCollapse" @changeAside="changeAside" v-if="showComponent"></Header>
+        <Header ref="headerComponent" :isCollapse="asideSettings.isCollapse" @changeAside="changeAside" v-if="showComponent"></Header>
         <el-main>
           <RouterView></RouterView>
         </el-main>

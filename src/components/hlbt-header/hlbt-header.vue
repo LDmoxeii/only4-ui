@@ -3,14 +3,22 @@ import { ref } from 'vue'
 import { onMounted } from 'vue'
 import { ElMessage } from 'element-plus';
 import a11Img from '@/assets/a11.jpeg'  // 导入assets下的图片，自己喜欢啥图加啥图就行
-import { constantRoutes } from '@/router';
+import { dynamicRoutes } from '@/router';
 import { watch } from 'vue';
 
 // 获得当前路由的路径
 import { useRoute } from 'vue-router';
 
+let routerList = () => {
+  return Object.entries(dynamicRoutes).map(([role, roleRoutes]) => {
+    return {
+      role,
+      roleRoutes
+    }
+  })
+}
 // 所有的路由信息
-const list = constantRoutes.map(item => {
+const list = routerList()[0].roleRoutes.map(item => {
     return {
         title: item.meta?.title,
         path: item.path,
@@ -23,11 +31,12 @@ const list = constantRoutes.map(item => {
         })
     }
 })
+const isCollapse = ref(false)
 
-const isCollapse = ref(true)
 // 获取父组件传递过来的数据 
 const showIcon = defineProps({
-    isCollapse: Boolean
+    isCollapse: Boolean,
+    a: String,
 })
 
 // 获取父组件自定义的事件
@@ -41,20 +50,17 @@ const collapseAside = () => {
 
 // 获得当前路由的路径
 const route = useRoute();
-console.log(route.meta.mark);
-
 const currentRoutePath = ref('')  // 使用 ref 创建响应式状态
 onMounted(() => {
+    
     // 监听路由变化
     currentRoutePath.value = route.fullPath;
-    console.log('Initial route path:', route.fullPath);
 })
 // 监听路由变化
 watch(
   () => route.fullPath,
   (newPath) => {
     currentRoutePath.value = newPath;
-    console.log('Route path changed:', newPath);
   }
 );
 
@@ -139,4 +145,5 @@ const LogOut = () => {
     color:blue;
     cursor: pointer;
 }
+
 </style>

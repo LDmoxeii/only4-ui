@@ -11,7 +11,7 @@
       type: String,
       default: "#icon-"
     },
-    // svg名称
+    // 默认已有'src/assets/icons/svgs'，传入svg名称拼接
     name: String,
     // svg颜色
     color: {
